@@ -8,8 +8,8 @@
 <h1>Pokemon Browser</h1>
 
 <p>Find pokemon by name or use random pokemon button.</p>
-<input id="name" @bind="@_searchText" type="text" @onkeypress="EnterFindPokemon"/>
-<button class="btn btn-primary" @onclick="FindPokemon" >Find pokemon by name</button>
+<input id="name" @bind="@_searchText" type="text"/>
+<button class="btn btn-primary" @onclick="FindPokemon">Find pokemon by name</button>
 <button class="btn btn-primary" @onclick="GetRandom">Random</button>
 
 @if (_pokemon?.Id == 0)
@@ -37,14 +37,5 @@ else if(_pokemon is not null)
     async Task GetRandom()
     {
         _pokemon = await PokemonApi.GetRandom();
-    }
-
-    async Task EnterFindPokemon(KeyboardEventArgs e)
-    {
-        if (e.Code is "Enter" or "NumpadEnter")
-        {
-            await FindPokemon();
-            StateHasChanged();
-        }
     }
 }
