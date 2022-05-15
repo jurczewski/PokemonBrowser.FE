@@ -14,7 +14,7 @@
 
 @if (_pokemon?.Id == 0)
 {
-    <p><em>There is no pokemon with name "@_searchText"</em></p>
+    <p><em>There is no pokemon with name '@_searchText'</em></p>
 }
 else if(_pokemon is not null)
 {
@@ -28,7 +28,10 @@ else if(_pokemon is not null)
 
     async Task FindPokemon()
     {
-        _pokemon = await PokemonApi.GetPokemon(_searchText);
+        if (_searchText is not null && !string.IsNullOrWhiteSpace(_searchText))
+        {
+            _pokemon = await PokemonApi.GetPokemon(_searchText);
+        }        
     }
 
     async Task GetRandom()
