@@ -71,3 +71,7 @@ input {
 img {
     display: block;
 }
+
+h2 {
+    text-transform: capitalize;
+}
