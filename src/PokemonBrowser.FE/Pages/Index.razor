@@ -12,11 +12,15 @@
 <button class="btn btn-primary" @onclick="FindPokemon">Find pokemon by name</button>
 <button class="btn btn-primary" @onclick="GetRandom">Random</button>
 
-@if (_pokemon?.Id == 0)
+@if (_isLoading)
+{
+    <h3>Loading...</h3>
+}
+else if (@_pokemon?.Id == 0)
 {
     <p><em>There is no pokemon with name '@_searchText'</em></p>
 }
-else if(_pokemon is not null)
+else if(@_pokemon is not null)
 {
     <img src="@_pokemon.FrontImageUrl" alt="@_pokemon.Name"/>
     <h2>@_pokemon.Name</h2>                                                           
@@ -25,17 +29,32 @@ else if(_pokemon is not null)
 @code {
     private PokemonResponse? _pokemon;
     private string? _searchText;
+    private bool _isLoading;
 
     async Task FindPokemon()
     {
         if (_searchText is not null && !string.IsNullOrWhiteSpace(_searchText))
         {
+            LoadingOn();
             _pokemon = await PokemonApi.GetPokemon(_searchText);
+            LoadingOff();
         }        
     }
 
     async Task GetRandom()
     {
+        LoadingOn();
         _pokemon = await PokemonApi.GetRandom();
+        LoadingOff();
+    }
+    
+    void LoadingOn()
+    {
+        _isLoading = true;
+    }
+    
+    void LoadingOff()
+    {
+        _isLoading = false;
     }
 }
